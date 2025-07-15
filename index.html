@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>下载并跳转测试</title>
+</head>
+<body>
+  <h1>测试下载并跳转到 about:blank</h1>
+
+  <h2>方式1：直接点击链接并跳转（可能会中断下载）</h2>
+  <a href="file.pdf" download onclick="window.location='about:blank'">
+    下载文件（当前页跳转）
+  </a>
+
+  <h2>方式2：新窗口下载，当前页跳转（推荐）</h2>
+  <a href="file.pdf" download target="_blank" onclick="window.location='about:blank'">
+    下载文件（新窗口下载，当前页跳转）
+  </a>
+
+  <h2>方式3：用 JavaScript 创建下载并延迟跳转</h2>
+  <button onclick="downloadAndRedirect()">点击下载并跳转</button>
+
+  <script>
+    function downloadAndRedirect() {
+      const link = document.createElement('a');
+      link.href = 'https://owasp-be-lux.org/assets/Protecting_Web_Applications_from_Universal_PDF_XSS.pdf';  // 请替换为你实际的下载地址
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        window.location = 'about:blank';
+      }, 500); // 延迟跳转，确保下载已开始
+    }
+  </script>
+</body>
+</html>
