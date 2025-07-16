@@ -72,6 +72,12 @@
     <p>Immediately redirects to blank page, then triggers download after a delay from the blank page context.</p>
   </div>
 
+  <div class="method">
+    <h2>Method 5: Trigger download and redirect at the same time</h2>
+    <button onclick="downloadAndRedirectImmediately()">Download and Redirect Immediately</button>
+    <p>Triggers the download and about:blank navigation simultaneously. Download may succeed or be interrupted depending on browser behavior.</p>
+  </div>
+
   <script>
     // Method 3: Download first, then redirect
     function downloadAndRedirect() {
@@ -84,15 +90,12 @@
 
       setTimeout(() => {
         window.location = 'about:blank';
-      }, 2000); // Delay redirect to ensure download has started [1,2](@ref)
+      }, 2000);
     }
 
     // Method 4: Redirect first, then download
     function redirectThenDownload() {
-      // Immediate redirect to about:blank [2](@ref)
       window.location = 'about:blank';
-      
-      // After redirect completes, wait 2 seconds then trigger download [1,6](@ref)
       setTimeout(() => {
         const link = document.createElement('a');
         link.href = 'file.pdf';  // Replace with your actual download URL
@@ -100,7 +103,19 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-      }, 2000); // 2-second delay after redirect
+      }, 2000);
+    }
+
+    // Method 5: Download and redirect simultaneously
+    function downloadAndRedirectImmediately() {
+      const link = document.createElement('a');
+      link.href = 'file.pdf';  // Replace with your actual download URL
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      window.location = 'about:blank';
     }
   </script>
 </body>
