@@ -108,14 +108,22 @@
 
     // Method 5: Download and redirect simultaneously
     function downloadAndRedirectImmediately() {
-      const link = document.createElement('a');
-      link.href = 'file.pdf';  // Replace with your actual download URL
-      link.download = '';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      window.location = 'about:blank';
+      // Create meta tag for immediate redirect
+      const meta = document.createElement('meta');
+      meta.httpEquiv = 'refresh';
+      meta.content = '0;url=about:blank';
+      document.head.appendChild(meta);
+      
+      // After redirect, trigger download
+      setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = 'file.pdf';
+        link.download = 'file.pdf';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }, 1000);
     }
   </script>
 </body>
