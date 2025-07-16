@@ -1,28 +1,79 @@
-Certainly. Here’s your HTML code translated into English, with no other changes made:
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Download and Redirect Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #444;
+      margin-top: 30px;
+    }
+    a, button {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    a:hover, button:hover {
+      background-color: #45a049;
+    }
+    .method {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-left: 4px solid #4CAF50;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>Test Download and Redirect to about:blank</h1>
 
-  <h2>Method 1: Click link and redirect directly (may interrupt download)</h2>
-  <a href="file.pdf" download onclick="window.location='about:blank'">
-    Download File (Current Page Redirect)
-  </a>
+  <div class="method">
+    <h2>Method 1: Click link and redirect directly (may interrupt download)</h2>
+    <a href="file.pdf" download onclick="window.location='about:blank'">
+      Download File (Current Page Redirect)
+    </a>
+    <p>This method redirects immediately when clicking, which might interrupt the download process.</p>
+  </div>
 
-  <h2>Method 2: Download in new window, redirect current page (recommended)</h2>
-  <a href="file.pdf" download target="_blank" onclick="window.location='about:blank'">
-    Download File (New Window Download, Current Page Redirect)
-  </a>
+  <div class="method">
+    <h2>Method 2: Download in new window, redirect current page (recommended)</h2>
+    <a href="file.pdf" download target="_blank" onclick="window.location='about:blank'">
+      Download File (New Window Download, Current Page Redirect)
+    </a>
+    <p>Opens download in a new window/tab while redirecting the current page, providing better reliability.</p>
+  </div>
 
-  <h2>Method 3: Use JavaScript to trigger download and delay redirect</h2>
-  <button onclick="downloadAndRedirect()">Click to Download and Redirect</button>
+  <div class="method">
+    <h2>Method 3: Use JavaScript to trigger download and delay redirect</h2>
+    <button onclick="downloadAndRedirect()">Click to Download and Redirect</button>
+    <p>Programmatically triggers the download and delays the redirect to ensure download starts first.</p>
+  </div>
+
+  <div class="method">
+    <h2>Method 4: Redirect to about:blank first, then delay download</h2>
+    <button onclick="redirectThenDownload()">Redirect First, Then Download</button>
+    <p>Immediately redirects to blank page, then triggers download after a delay from the blank page context.</p>
+  </div>
 
   <script>
+    // Method 3: Download first, then redirect
     function downloadAndRedirect() {
       const link = document.createElement('a');
       link.href = 'file.pdf';  // Replace with your actual download URL
@@ -33,7 +84,23 @@ Certainly. Here’s your HTML code translated into English, with no other change
 
       setTimeout(() => {
         window.location = 'about:blank';
-      }, 2000); // Delay redirect to ensure download has started
+      }, 2000); // Delay redirect to ensure download has started [1,2](@ref)
+    }
+
+    // Method 4: Redirect first, then download
+    function redirectThenDownload() {
+      // Immediate redirect to about:blank [2](@ref)
+      window.location = 'about:blank';
+      
+      // After redirect completes, wait 2 seconds then trigger download [1,6](@ref)
+      setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = 'file.pdf';  // Replace with your actual download URL
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }, 2000); // 2-second delay after redirect
     }
   </script>
 </body>
