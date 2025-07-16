@@ -108,22 +108,17 @@
 
     // Method 5: Download and redirect simultaneously
     function downloadAndRedirectImmediately() {
-      // Create meta tag for immediate redirect
-      const meta = document.createElement('meta');
-      meta.httpEquiv = 'refresh';
-      meta.content = '0;url=about:blank';
-      document.head.appendChild(meta);
-      
-      // After redirect, trigger download
-      setTimeout(() => {
-        const link = document.createElement('a');
-        link.href = 'file.pdf';
-        link.download = 'file.pdf';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }, 1000);
+      const link = document.createElement('a');
+      link.href = 'file.pdf';  // 替换为你的实际文件地址
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    
+      // 使用 requestAnimationFrame 保证下载 click 已处理后再跳转
+      requestAnimationFrame(() => {
+        window.location = 'about:blank';
+      });
     }
   </script>
 </body>
