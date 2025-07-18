@@ -3,83 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Download and Redirect Test</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      color: #333;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    h2 {
-      color: #444;
-      margin-top: 30px;
-    }
-    a, button {
-      display: inline-block;
-      margin: 10px 0;
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    a:hover, button:hover {
-      background-color: #45a049;
-    }
-    .method {
-      background-color: #f9f9f9;
-      padding: 15px;
-      border-left: 4px solid #4CAF50;
-      margin-bottom: 20px;
-    }
-  </style>
 </head>
 <body>
   <h1>Test Download and Redirect to about:blank</h1>
 
-  <div class="method">
-    <h2>Method 1: Click link and redirect directly (may interrupt download)</h2>
-    <a href="file.pdf" download onclick="window.location='about:blank'">
-      Download File (Current Page Redirect)
-    </a>
-    <p>This method redirects immediately when clicking, which might interrupt the download process.</p>
-  </div>
+  <h2>Method 1: Click link and redirect directly (may interrupt download)</h2>
+  <a href="file.pdf" download onclick="window.location='about:blank'">
+    Download File (Current Page Redirect)
+  </a>
 
-  <div class="method">
-    <h2>Method 2: Download in new window, redirect current page (recommended)</h2>
-    <a href="file.pdf" download target="_blank" onclick="window.location='about:blank'">
-      Download File (New Window Download, Current Page Redirect)
-    </a>
-    <p>Opens download in a new window/tab while redirecting the current page, providing better reliability.</p>
-  </div>
+  <h2>Method 2: Download in new window, redirect current page (recommended)</h2>
+  <a href="file.pdf" download target="_blank" onclick="window.location='about:blank'">
+    Download File (New Window Download, Current Page Redirect)
+  </a>
 
-  <div class="method">
-    <h2>Method 3: Use JavaScript to trigger download and delay redirect</h2>
-    <button onclick="downloadAndRedirect()">Click to Download and Redirect</button>
-    <p>Programmatically triggers the download and delays the redirect to ensure download starts first.</p>
-  </div>
+  <h2>Method 3: Use JavaScript to trigger download and delay redirect</h2>
+  <button onclick="downloadAndRedirect()">Click to Download and Redirect</button>
 
-  <div class="method">
-    <h2>Method 4: Redirect to about:blank first, then delay download</h2>
-    <button onclick="redirectThenDownload()">Redirect First, Then Download</button>
-    <p>Immediately redirects to blank page, then triggers download after a delay from the blank page context.</p>
-  </div>
+  <h2>Method 6: Use window.open('about:blank') and then trigger download</h2>
+  <button onclick="downloadWithBlankWindow()">Open about:blank and Download PDF</button>
 
-  <div class="method">
-    <h2>Method 5: Trigger download and redirect at the same time</h2>
-    <button onclick="downloadAndRedirectImmediately()">Download and Redirect Immediately</button>
-    <p>Triggers the download and about:blank navigation simultaneously. Download may succeed or be interrupted depending on browser behavior.</p>
-  </div>
+  <h2>Method 7: Open about:blank and trigger download inside new window via iframe</h2>
+  <button onclick="downloadInBlankWindowViaIframe()">Open about:blank and Download via iframe</button>
 
   <script>
-    // Method 3: Download first, then redirect
     function downloadAndRedirect() {
       const link = document.createElement('a');
       link.href = 'file.pdf';  // Replace with your actual download URL
@@ -90,35 +37,27 @@
 
       setTimeout(() => {
         window.location = 'about:blank';
-      }, 2000);
+      }, 500);
     }
 
-    // Method 4: Redirect first, then download
-    function redirectThenDownload() {
-      window.location = 'about:blank';
-      setTimeout(() => {
-        const link = document.createElement('a');
-        link.href = 'file.pdf';  // Replace with your actual download URL
-        link.download = '';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }, 2000);
-    }
+    function downloadWithBlankWindow() {
+      window.open('about:blank');
 
-    // Method 5: Download and redirect simultaneously
-    function downloadAndRedirectImmediately() {
       const link = document.createElement('a');
-      link.href = 'file.pdf';  // 替换为你的实际文件地址
+      link.href = 'file.pdf';  // Replace with your actual download URL
       link.download = '';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    
-      // 使用 requestAnimationFrame 保证下载 click 已处理后再跳转
-      requestAnimationFrame(() => {
-        window.location = 'about:blank';
-      });
+    }
+
+    function downloadInBlankWindowViaIframe() {
+      const newWin = window.open('about:blank');
+      if (newWin) {
+        newWin.document.write('<iframe src="file.pdf" style="display:none"></iframe>');
+      } else {
+        alert('Popup blocked. Please allow popups for this site.');
+      }
     }
   </script>
 </body>
