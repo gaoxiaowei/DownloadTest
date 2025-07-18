@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Download via about:blank</title>
+</head>
+<body>
+  <button onclick="openTabAndDownload()">打开 about:blank 并下载</button>
+
+  <script>
+    function openTabAndDownload() {
+      // 打开一个 about:blank 新标签页
+      const newWindow = window.open("about:blank");
+
+      // 构造下载链接（此例用 Blob，也可替换为真实链接）
+      const fileContent = "Hello, this is a file!";
+      const blob = new Blob([fileContent], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+
+      // 在新窗口中写入 HTML 和自动点击下载
+      newWindow.document.write(`
+        <html>
+          <body>
+            <a id="downloadLink" href="${url}" download="file.txt">下载</a>
+            <script>
+              document.getElementById('downloadLink').click();
+            <\/script>
+          </body>
+        </html>
+      `);
+    }
+  </script>
+</body>
+</html>
