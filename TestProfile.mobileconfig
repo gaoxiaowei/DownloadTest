@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data></data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string>Edge Test WebClip</string>
+            <key>PayloadDescription</key>
+            <string>Creates a test WebClip.</string>
+            <key>PayloadDisplayName</key>
+            <string>Test WebClip</string>
+            <key>PayloadIdentifier</key>
+            <string>com.example.testwebclip</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>11111111-1111-1111-1111-111111111111</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>Precomposed</key>
+            <false/>
+            <key>URL</key>
+            <string>https://www.microsoft.com</string>
+        </dict>
+    </array>
+    <key>PayloadDisplayName</key>
+    <string>Edge Test Profile</string>
+    <key>PayloadIdentifier</key>
+    <string>com.example.testprofile</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>22222222-2222-2222-2222-222222222222</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>
